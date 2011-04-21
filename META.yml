@@ -10,22 +10,21 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.31
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.200001, CPAN::Meta::Converter version 2.110240'
+generated_by: 'Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110440'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: App-perlhl
 requires:
-  Carp: 0
-  File::Basename: 0
   Getopt::Long: 0
   Pod::Usage: 0
   Syntax::Highlight::Perl::Improved: 1.01
   Term::ANSIColor: 3.00
-  autodie: 0
-  perl: 5.010100
+  perl: 5.006
+  perl5i::2: 0
 resources:
-  bugtracker: http://github.com/doherty/App-perlhl/issues
+  bugtracker: https://github.com/doherty/App-perlhl/issues
+  homepage: http://p3rl.org/App::perlhl
   repository: git://github.com/doherty/App-perlhl.git
-version: 0.001
+version: 0.002

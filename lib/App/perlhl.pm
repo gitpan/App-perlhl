@@ -1,86 +1,77 @@
-use strict;
-use warnings;
-use 5.010100;
-
 package App::perlhl;
-BEGIN {
-  $App::perlhl::VERSION = '0.001';
-}
+use perl5i::2;
 # ABSTRACT: application class for syntax highlighting Perl source code
-
-use autodie qw(open close);
-use Carp ();
+our $VERSION = '0.002'; # VERSION
 use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
 
-sub new {
-    my $class = shift;
-    my $opts  = shift;
-
+method new($class: $output) {
     my $formatter = Syntax::Highlight::Perl::Improved->new();
-    if ($opts->{html}) {
-        my $color_table = {
-            'Variable_Scalar'   => 'color:#080;',
-            'Variable_Array'    => 'color:#f70;',
-            'Variable_Hash'     => 'color:#80f;',
-            'Variable_Typeglob' => 'color:#f03;',
-            'Subroutine'        => 'color:#980;',
-            'Quote'             => 'color:#00a;',
-            'String'            => 'color:#00a;',
-            'Comment_Normal'    => 'color:#069;font-style:italic;',
-            'Comment_POD'       => 'color:#014;font-family:garamond,serif;font-size:11pt;',
-            'Bareword'          => 'color:#3A3;',
-            'Package'           => 'color:#900;',
-            'Number'            => 'color:#f0f;',
-            'Operator'          => 'color:#000;',
-            'Symbol'            => 'color:#000;',
-            'Keyword'           => 'color:#000;',
-            'Builtin_Operator'  => 'color:#300;',
-            'Builtin_Function'  => 'color:#001;',
-            'Character'         => 'color:#800;',
-            'Directive'         => 'color:#399;font-style:italic;',
-            'Label'             => 'color:#939;font-style:italic;',
-            'Line'              => 'color:#000;',
-        };
-        # HTML escapes.
-        $formatter->define_substitution('<' => '&lt;',
-                                        '>' => '&gt;',
-                                        '&' => '&amp;');
+    given ($output) {
+        when ('html') {
+            my $color_table = {
+                'Variable_Scalar'   => 'color:#080;',
+                'Variable_Array'    => 'color:#f70;',
+                'Variable_Hash'     => 'color:#80f;',
+                'Variable_Typeglob' => 'color:#f03;',
+                'Subroutine'        => 'color:#980;',
+                'Quote'             => 'color:#00a;',
+                'String'            => 'color:#00a;',
+                'Comment_Normal'    => 'color:#069;font-style:italic;',
+                'Comment_POD'       => 'color:#014;font-family:garamond,serif;font-size:11pt;',
+                'Bareword'          => 'color:#3A3;',
+                'Package'           => 'color:#900;',
+                'Number'            => 'color:#f0f;',
+                'Operator'          => 'color:#000;',
+                'Symbol'            => 'color:#000;',
+                'Keyword'           => 'color:#000;',
+                'Builtin_Operator'  => 'color:#300;',
+                'Builtin_Function'  => 'color:#001;',
+                'Character'         => 'color:#800;',
+                'Directive'         => 'color:#399;font-style:italic;',
+                'Label'             => 'color:#939;font-style:italic;',
+                'Line'              => 'color:#000;',
+            };
+            # HTML escapes.
+            $formatter->define_substitution('<' => '&lt;',
+                                            '>' => '&gt;',
+                                            '&' => '&amp;');
 
-        # install the formats set up above
-        while ( my($type, $style) = each %{$color_table} ) {
-            $formatter->set_format($type, [ qq{<span style="$style">}, qq{</span>} ]);
+            # install the formats set up above
+            while ( my($type, $style) = each %{$color_table} ) {
+                $formatter->set_format($type, [ qq{<span style="$style">}, qq{</span>} ]);
+            }
         }
-    }
-    else {
-        my $color_table = { # Readability is not so good -- play with it more
-            'Bareword'          => 'bright_green',
-            'Builtin_Function'  => 'blue',
-            'Builtin_Operator'  => 'bright_red',
-            'Character'         => 'bold bright_red',
-            'Comment_Normal'    => 'bright_blue',
-            'Comment_POD'       => 'bright_black',
-            'Directive'         => 'bold bright_black',
-            'Keyword'           => 'white',
-            'Label'             => 'bright_magenta',
-            'Line'              => 'white',
-            'Number'            => 'bright_red',
-            'Operator'          => 'white',
-            'Package'           => 'bold bright_red',
-            'Quote'             => 'blue',
-            'String'            => 'blue',
-            'Subroutine'        => 'yellow',
-            'Symbol'            => 'white',
-            'Variable_Array'    => 'cyan',
-            'Variable_Hash'     => 'magenta',
-            'Variable_Scalar'   => 'green',
-            'Variable_Typeglob' => 'bright_red',
-        };
+        when ('ansi') {
+            my $color_table = { # Readability is not so good -- play with it more
+                'Bareword'          => 'bright_green',
+                'Builtin_Function'  => 'blue',
+                'Builtin_Operator'  => 'bright_red',
+                'Character'         => 'bold bright_red',
+                'Comment_Normal'    => 'bright_blue',
+                'Comment_POD'       => 'bright_black',
+                'Directive'         => 'bold bright_black',
+                'Keyword'           => 'white',
+                'Label'             => 'bright_magenta',
+                'Line'              => 'white',
+                'Number'            => 'bright_red',
+                'Operator'          => 'white',
+                'Package'           => 'bold bright_red',
+                'Quote'             => 'blue',
+                'String'            => 'blue',
+                'Subroutine'        => 'yellow',
+                'Symbol'            => 'white',
+                'Variable_Array'    => 'cyan',
+                'Variable_Hash'     => 'magenta',
+                'Variable_Scalar'   => 'green',
+                'Variable_Typeglob' => 'bright_red',
+            };
 
-        # install the formats set up above
-        while ( my ( $type, $style ) = each %{$color_table} ) {
-            $formatter->set_format($type, [ Term::ANSIColor::color($style), Term::ANSIColor::color('reset') ]);
+            # install the formats set up above
+            while ( my ( $type, $style ) = each %{$color_table} ) {
+                $formatter->set_format($type, [ Term::ANSIColor::color($style), Term::ANSIColor::color('reset') ]);
+            }
         }
     }
 
@@ -88,20 +79,23 @@ sub new {
 }
 
 
-sub run {
-    my $self = shift;
-    my $opts = shift;
-    my $argv = shift;
-
-    if ($opts->{version}) {
-        require File::Basename;
-        my $this = File::Basename::basename($0); # __PACKAGE__?
-        my $this_ver = (defined __PACKAGE__->VERSION ? __PACKAGE__->VERSION : 'dev');
-        say "$this version $this_ver" and exit;
+method run($mode, @files) {
+    given ($mode) {
+        when ('version')    { $self->_do_version(); }
+        when ('highlight')  { $self->_do_highlighting(@files); }
+        default             { $self->_do_highlighting(@files); }
     }
+}
 
-    if (@$argv) {
-        while (my $filename = shift(@$argv)) {
+method _do_version() {
+    my $this = __PACKAGE__;
+    my $this_ver = (defined __PACKAGE__->VERSION ? __PACKAGE__->VERSION : 'dev');
+    say "$this version $this_ver" and exit;
+}
+
+method _do_highlighting(@files) {
+    if (@files) {
+        foreach my $filename (@files) {
             open my $in, '<', $filename;
             # Use a separate object for each file - otherwise,
             # highlighting for anything after the first file
@@ -119,8 +113,6 @@ sub run {
     }
 }
 
-1;
-
 __END__
 =pod
 
@@ -132,7 +124,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -181,6 +173,8 @@ If present, the application will print version data and exit.
 
 =head1 AVAILABILITY
 
+The project homepage is L<http://p3rl.org/App::perlhl>.
+
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
 site near you, or see L<http://search.cpan.org/dist/App-perlhl/>.
@@ -190,12 +184,17 @@ and may be cloned from L<git://github.com/doherty/App-perlhl.git>.
 Instead of sending patches, please fork this project using the standard
 git and github infrastructure.
 
+=head1 SOURCE
+
+The development version is on github at L<http://github.com/doherty/App-perlhl>
+and may be cloned from L<git://github.com/doherty/App-perlhl.git>
+
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://github.com/doherty/App-perlhl/issues>.
+L<https://github.com/doherty/App-perlhl/issues>.
 
 =head1 AUTHOR
 

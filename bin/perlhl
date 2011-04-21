@@ -1,14 +1,8 @@
 #!perl
-use strict;
-use warnings;
-use 5.010100;
-
 package perlhl;
-BEGIN {
-  $perlhl::VERSION = '0.001';
-}
 # ABSTRACT: command-line syntax highlighter for Perl source code
-
+our $VERSION = '0.002'; # VERSION
+use perl5i::2;
 require App::perlhl;
 use Getopt::Long;
 use Pod::Usage;
@@ -25,7 +19,16 @@ pod2usage(
 ) if $opts{'help'};
 
 
-App::perlhl->new(\%opts)->run(\%opts, \@ARGV);
+if (delete $opts{version}) {
+    my $this = __PACKAGE__;
+    my $this_ver = (defined __PACKAGE__->VERSION ? __PACKAGE__->VERSION : 'dev');
+    say "$this version $this_ver" and exit;
+}
+
+my $mode = (delete $opts{version} ? 'version' : 'highlight');
+my $html =  delete $opts{html};
+
+App::perlhl->new($html)->run($mode, @ARGV);
 
 __END__
 =pod
@@ -38,7 +41,7 @@ perlhl - command-line syntax highlighter for Perl source code
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -102,6 +105,8 @@ There is a one-liner that can do something comparable:
 
 =head1 AVAILABILITY
 
+The project homepage is L<http://p3rl.org/App::perlhl>.
+
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
 site near you, or see L<http://search.cpan.org/dist/App-perlhl/>.
@@ -111,12 +116,17 @@ and may be cloned from L<git://github.com/doherty/App-perlhl.git>.
 Instead of sending patches, please fork this project using the standard
 git and github infrastructure.
 
+=head1 SOURCE
+
+The development version is on github at L<http://github.com/doherty/App-perlhl>
+and may be cloned from L<git://github.com/doherty/App-perlhl.git>
+
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://github.com/doherty/App-perlhl/issues>.
+L<https://github.com/doherty/App-perlhl/issues>.
 
 =head1 AUTHOR
 
