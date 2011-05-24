@@ -1,7 +1,7 @@
-#!perl
+#!/usr/bin/env perl
 package perlhl;
 # ABSTRACT: command-line syntax highlighter for Perl source code
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 use perl5i::2;
 require App::perlhl;
 use Getopt::Long;
@@ -16,7 +16,7 @@ GetOptions( \%opts,
 
 pod2usage(
     -verbose => 2,
-) if $opts{'help'};
+) if $opts{help};
 
 
 if (delete $opts{version}) {
@@ -25,10 +25,10 @@ if (delete $opts{version}) {
     say "$this version $this_ver" and exit;
 }
 
-my $mode = (delete $opts{version} ? 'version' : 'highlight');
-my $html =  delete $opts{html};
+my $mode    = delete $opts{version} ? 'version' : 'highlight';
+my $output  = delete $opts{html}    ? 'html'    : 'ansi';
 
-App::perlhl->new($html)->run($mode, @ARGV);
+App::perlhl->new($output)->run($mode, @ARGV);
 
 __END__
 =pod
@@ -41,7 +41,7 @@ perlhl - command-line syntax highlighter for Perl source code
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -101,7 +101,10 @@ the future, this option might print a whole valid document.
 
 There is a one-liner that can do something comparable:
 
-    perl -MText::Highlight -E '$h=Text::Highlight->new(ansi=>1); my $text=do{local $/; open my $fh, "<", $ARGV[0]; <$fh>}; say $h->highlight("Perl", $text);' bin/perlhl
+    perl -MText::Highlight -E 'my $h = Text::Highlight->new(ansi => 1);
+    > my $text = do { local $/; open my $fh, "<", $ARGV[0]; <$fh> };
+    > say $h->highlight("Perl", $text);
+    > ' bin/perlhl
 
 =head1 AVAILABILITY
 

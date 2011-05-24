@@ -1,13 +1,14 @@
 package App::perlhl;
 use perl5i::2;
 # ABSTRACT: application class for syntax highlighting Perl source code
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
 
 method new($class: $output) {
     my $formatter = Syntax::Highlight::Perl::Improved->new();
+    $output ||= 'ansi';
     given ($output) {
         when ('html') {
             my $color_table = {
@@ -124,7 +125,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
