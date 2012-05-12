@@ -1,14 +1,19 @@
 package App::perlhl;
-use perl5i::2;
-# ABSTRACT: application class for syntax highlighting Perl source code
-our $VERSION = '0.003'; # VERSION
+use strict;
+use warnings;
+use v5.10.1;
 use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
+# ABSTRACT: application class for syntax highlighting Perl source code
+our $VERSION = '0.004'; # VERSION
 
-method new($class: $output) {
+
+sub new {
+    my $class = shift;
+    my $output= shift || 'ansi';
+
     my $formatter = Syntax::Highlight::Perl::Improved->new();
-    $output ||= 'ansi';
     given ($output) {
         when ('html') {
             my $color_table = {
@@ -80,7 +85,11 @@ method new($class: $output) {
 }
 
 
-method run($mode, @files) {
+sub run {
+    my $self  = shift;
+    my $mode  = shift;
+    my @files = @_;
+
     given ($mode) {
         when ('version')    { $self->_do_version(); }
         when ('highlight')  { $self->_do_highlighting(@files); }
@@ -88,13 +97,16 @@ method run($mode, @files) {
     }
 }
 
-method _do_version() {
+sub _do_version {
     my $this = __PACKAGE__;
     my $this_ver = (defined __PACKAGE__->VERSION ? __PACKAGE__->VERSION : 'dev');
     say "$this version $this_ver" and exit;
 }
 
-method _do_highlighting(@files) {
+sub _do_highlighting {
+    my $self  = shift;
+    my @files = @_;
+
     if (@files) {
         foreach my $filename (@files) {
             open my $in, '<', $filename;
@@ -109,10 +121,12 @@ method _do_highlighting(@files) {
     }
     else {
         while (<STDIN>) {
-            print $self->{formatter}->format_string;
+            print $self->{formatter}->format_string while (<STDIN>);
         }
     }
 }
+
+1;
 
 __END__
 =pod
@@ -125,7 +139,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -178,12 +192,7 @@ The project homepage is L<http://p3rl.org/App::perlhl>.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you, or see L<http://search.cpan.org/dist/App-perlhl/>.
-
-The development version lives at L<http://github.com/doherty/App-perlhl>
-and may be cloned from L<git://github.com/doherty/App-perlhl.git>.
-Instead of sending patches, please fork this project using the standard
-git and github infrastructure.
+site near you, or see L<https://metacpan.org/module/App::perlhl/>.
 
 =head1 SOURCE
 
@@ -192,10 +201,8 @@ and may be cloned from L<git://github.com/doherty/App-perlhl.git>
 
 =head1 BUGS AND LIMITATIONS
 
-No bugs have been reported.
-
-Please report any bugs or feature requests through the web interface at
-L<https://github.com/doherty/App-perlhl/issues>.
+You can make new bug reports, and view existing ones, through the
+web interface at L<https://github.com/doherty/App-perlhl/issues>.
 
 =head1 AUTHOR
 

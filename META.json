@@ -4,7 +4,7 @@
       "Mike Doherty <doherty@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.200006, CPAN::Meta::Converter version 2.110930",
+   "generated_by" : "Dist::Zilla version 4.300016, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -13,27 +13,41 @@
       "version" : "2"
    },
    "name" : "App-perlhl",
+   "no_index" : {
+      "directory" : [
+         "corpus"
+      ]
+   },
    "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.30"
+            "ExtUtils::MakeMaker" : "6.30",
+            "Module::Build" : "0.3601"
          }
       },
       "runtime" : {
          "requires" : {
-            "Getopt::Long" : 0,
-            "Pod::Usage" : 0,
+            "Getopt::Long" : "0",
+            "Pod::Usage" : "0",
             "Syntax::Highlight::Perl::Improved" : "1.01",
             "Term::ANSIColor" : "3.00",
-            "perl" : "5.006",
-            "perl5i::2" : 0
+            "perl" : "v5.10.1",
+            "strict" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "File::Find" : 0,
-            "File::Temp" : 0,
-            "Test::More" : 0
+            "File::Find" : "0",
+            "File::Temp" : "0",
+            "Test::More" : "0",
+            "Test::Output" : "0",
+            "open" : "0"
          }
       }
    },
@@ -49,6 +63,6 @@
          "web" : "https://github.com/doherty/App-perlhl"
       }
    },
-   "version" : "0.003"
+   "version" : "0.004"
 }
 
