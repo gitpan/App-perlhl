@@ -6,7 +6,7 @@ use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
 # ABSTRACT: application class for syntax highlighting Perl source code
-our $VERSION = '0.004'; # VERSION
+our $VERSION = '0.005'; # VERSION
 
 
 sub new {
@@ -124,11 +124,13 @@ sub _do_highlighting {
             print $self->{formatter}->format_string while (<STDIN>);
         }
     }
+    print "\n";
 }
 
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -139,7 +141,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -216,4 +218,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
