@@ -2,11 +2,12 @@ package App::perlhl;
 use strict;
 use warnings;
 use v5.10.1;
+no warnings 'experimental::smartmatch';
 use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
 # ABSTRACT: application class for syntax highlighting Perl source code
-our $VERSION = '0.005'; # VERSION
+our $VERSION = '0.006'; # VERSION
 
 
 sub new {
@@ -141,7 +142,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -190,7 +191,7 @@ If present, the application will print version data and exit.
 
 =head1 AVAILABILITY
 
-The project homepage is L<http://p3rl.org/App::perlhl>.
+The project homepage is L<http://metacpan.org/release/App-perlhl/>.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN

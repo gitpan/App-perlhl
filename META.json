@@ -4,7 +4,7 @@
       "Mike Doherty <doherty@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300032, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -65,13 +65,13 @@
       "bugtracker" : {
          "web" : "https://github.com/doherty/App-perlhl/issues"
       },
-      "homepage" : "http://p3rl.org/App::perlhl",
+      "homepage" : "http://metacpan.org/release/App-perlhl/",
       "repository" : {
          "type" : "git",
          "url" : "git://github.com/doherty/App-perlhl.git",
          "web" : "https://github.com/doherty/App-perlhl"
       }
    },
-   "version" : "0.005"
+   "version" : "0.006"
 }
 
