@@ -8,7 +8,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 # ABSTRACT: command-line syntax highlighter for Perl source code
-our $VERSION = '0.006'; # VERSION
+our $VERSION = '0.007'; # VERSION
 
 my %opts = ();
 GetOptions( \%opts,
@@ -45,7 +45,7 @@ perlhl - command-line syntax highlighter for Perl source code
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 

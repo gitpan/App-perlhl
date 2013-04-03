@@ -1,5 +1,9 @@
 Revision history for Perl module App-perlhl
 
+0.007     2013-04-03
+    * Disable experimental::smartmatch warnings without
+      breaking perl < v5.17.10-g0f539b1 [tobyink++]
+
 0.006     2013-04-01
     * Disable experimental::smartmatch warnings, which are new
       in bleadperl v5.17.10-30-g0f539b1 [GH #2]

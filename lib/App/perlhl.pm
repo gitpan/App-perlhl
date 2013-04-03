@@ -2,12 +2,12 @@ package App::perlhl;
 use strict;
 use warnings;
 use v5.10.1;
-no warnings 'experimental::smartmatch';
+no if ($] >= 5.017010), warnings => 'experimental::smartmatch';
 use Syntax::Highlight::Perl::Improved 1.01 ();
 use Term::ANSIColor 3.00 ();
 
 # ABSTRACT: application class for syntax highlighting Perl source code
-our $VERSION = '0.006'; # VERSION
+our $VERSION = '0.007'; # VERSION
 
 
 sub new {
@@ -142,7 +142,7 @@ App::perlhl - application class for syntax highlighting Perl source code
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
